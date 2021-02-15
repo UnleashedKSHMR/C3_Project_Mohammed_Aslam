@@ -36,7 +36,7 @@ public class Restaurant {
         //DELETE ABOVE RETURN STATEMENT AND WRITE CODE HERE
     }
 
-    private Item findItemByName(String itemName){
+    public Item findItemByName(String itemName){
         for(Item item: menu) {
             if(item.getName().equals(itemName))
                 return item;
@@ -68,6 +68,15 @@ public class Restaurant {
 
     public String getName() {
         return name;
+    }
+
+
+
+    public int getTotal(List<String> items) {
+
+        //Yet to be implemented
+        int sum = Integer.parseInt(null);
+        return sum;
     }
 
 }

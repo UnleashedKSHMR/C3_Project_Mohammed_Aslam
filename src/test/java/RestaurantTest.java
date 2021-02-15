@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +18,7 @@ class RestaurantTest {
     Restaurant restaurant;
     LocalTime openingTime;
     LocalTime closingTime;
+    List<String> selectedItems = new ArrayList<>();
     public RestaurantTest() {
          this.openingTime= LocalTime.parse("10:30:00");
         this.closingTime= LocalTime.parse("22:00:00");
@@ -70,4 +73,27 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    @Test
+    public void order_total_should_be_zero_when_no_items_selected(){
+        selectedItems.add("");
+        assertEquals(0,restaurant.getTotal(selectedItems));
+    }
+
+    @Test
+    public void order_total_should_return_valid_sum_on_adding_items(){
+        Item mockedItems1 = Mockito.spy(new Item("Sweet corn soup",119));
+        Item mockedItems2 = Mockito.spy(new Item("Juice",250));
+        selectedItems.add("Sweet corn soup");
+        selectedItems.add("Juice");
+        int price1 =150;
+        int price2= 200;
+        int sum=price1+price2;
+        Mockito.when(mockedItems1.getPrice()).thenReturn(price1);
+        Mockito.when(mockedItems2.getPrice()).thenReturn(price2);
+        assertEquals(sum,restaurant.getTotal(selectedItems));
+    }
+
+
+
 }
