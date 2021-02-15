@@ -73,9 +73,14 @@ public class Restaurant {
 
 
     public int getTotal(List<String> items) {
+        int sum = 0;
+        if(items!=null) {
+            for (String item : items) {
+                sum = sum + findItemByName(item).getPrice();
+            }
+        }
+        System.out.println(sum);
 
-        //Yet to be implemented
-        int sum = Integer.parseInt(null);
         return sum;
     }
 

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -76,22 +78,26 @@ class RestaurantTest {
 
     @Test
     public void order_total_should_be_zero_when_no_items_selected(){
-        selectedItems.add("");
         assertEquals(0,restaurant.getTotal(selectedItems));
     }
 
     @Test
     public void order_total_should_return_valid_sum_on_adding_items(){
-        Item mockedItems1 = Mockito.spy(new Item("Sweet corn soup",119));
-        Item mockedItems2 = Mockito.spy(new Item("Juice",250));
-        selectedItems.add("Sweet corn soup");
-        selectedItems.add("Juice");
-        int price1 =150;
-        int price2= 200;
-        int sum=price1+price2;
-        Mockito.when(mockedItems1.getPrice()).thenReturn(price1);
-        Mockito.when(mockedItems2.getPrice()).thenReturn(price2);
-        assertEquals(sum,restaurant.getTotal(selectedItems));
+
+        int price1 = 150;
+        int price2 = 200;
+        int sum = price1+price2;
+        String item1 = "Sweet corn soup";
+        String item2 = "Vegetable lasagne";
+        selectedItems.add(item1);
+        selectedItems.add(item2);
+        Item mockedItem = Mockito.mock(Item.class);
+        Mockito.when(mockedItem.getPrice()).thenReturn(price1,price2);
+        Restaurant mockedRestaurant = Mockito.spy(new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime));
+        Mockito.when(mockedRestaurant.findItemByName(any())).thenReturn(mockedItem);
+        assertEquals(sum,mockedRestaurant.getTotal(selectedItems));
+
+
     }
 
 
